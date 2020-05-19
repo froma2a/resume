@@ -295,6 +295,18 @@
 	height: 50rpx;
 	margin-right: 10rpx;
 }
+.columnar{
+	width: 600rpx;
+	height: 400rpx;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	z-index: -1;
+	opacity: 0.07;
+}
 .abilityct{
 	width: 200rpx;
 	height: 200rpx;
@@ -303,16 +315,22 @@
 	transform-style: preserve-3d;
 }
 .abilityct1{
+	width: 300rpx;
+	height: 300rpx;
+	margin: 100rpx auto 100rpx auto;
+}
+.abilityct1_inner{
 	width: 400rpx;
 	height: 400rpx;
-	margin: 50rpx auto 0 auto;
+	margin-left: -17%;
+	margin-top: -20%;
 }
 .ablty{
 	position: absolute;
 	left: 0;
 	top: 0;
-	width: 200rpx;
-	height: 200rpx;
+	width: 100%;
+	height: 100%;
 	font-size: 28rpx;
 	text-align: center;
 	display: flex;
@@ -321,7 +339,7 @@
 	align-items: center;
 	box-shadow: inset 0px 0px 4px -1px #00ae9d !important;
 	transition: all 0.5s linear;
-	transform-origin: 100rpx 100rpx 100rpx;
+	transform-origin: 75rpx 75rpx 75rpx;
 }
 .ablty_act:nth-child(1){
 	transform: translate(-200rpx,-100rpx);
@@ -345,28 +363,28 @@
 
 
 .ablty_act1:nth-child(1){
-	transform:translateZ(298rpx);
-	background: linear-gradient(to top, #00ae9d 50%, rgba(0,0,0,0) 92%);
+	transform:translateZ(250rpx);
+	/* background: linear-gradient(to top, #00ae9d 50%, rgba(0,0,0,0) 92%); */
 }
 .ablty_act1:nth-child(2){
 	transform: rotateX(90deg) translateY(100rpx);
-	background: linear-gradient(to top, #00ae9d 50%, rgba(0,0,0,0) 77%);
+	/* background: linear-gradient(to top, #00ae9d 50%, rgba(0,0,0,0) 77%); */
 }
 .ablty_act1:nth-child(3){
 	transform: rotateX(-90deg) translateY(-100rpx);
-	background: linear-gradient(to top, #00ae9d 50%, rgba(0,0,0,0) 83%);
+	/* background: linear-gradient(to top, #00ae9d 50%, rgba(0,0,0,0) 83%); */
 }
 .ablty_act1:nth-child(4){
 	transform: rotateY(-90deg) translateX(100rpx);
-	background: linear-gradient(to top, #00ae9d 50%, rgba(0,0,0,0) 80%);
+	/* background: linear-gradient(to top, #00ae9d 50%, rgba(0,0,0,0) 80%); */
 }
 .ablty_act1:nth-child(5){
 	transform: rotateY(90deg) translateX(-100rpx);
-	background: linear-gradient(to top, #00ae9d 50%, rgba(0,0,0,0) 79%);
+	/* background: linear-gradient(to top, #00ae9d 50%, rgba(0,0,0,0) 79%); */
 }
 .ablty_act1:nth-child(6){
-	background: linear-gradient(to top, #00ae9d 50%, rgba(0,0,0,0) 91%);
-	transform: rotateY(-180deg) translateZ(101rpx);
+	/* background: linear-gradient(to top, #00ae9d 50%, rgba(0,0,0,0) 91%); */
+	transform: rotateY(-180deg) translateZ(50rpx);
 }
 
 

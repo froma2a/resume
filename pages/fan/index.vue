@@ -71,10 +71,15 @@
 					<view>{{v.score}}</view>
 				</view>
 			</view>
-			<view class="abilityct1" v-if="btnAct == 2">
-				<echarts :id="'echartsr1'" :options="radar" />
+			<view class="columnar">
+				<echarts :id="'echartsr2'" v-if="randerCol" :options="columnar" />
 			</view>
-			<view class="buttons" :style="{'margin-top': btnAct == 1 ? '200rpx' : '0rpx'}">
+			<view class="abilityct1" v-if="btnAct == 2">
+				<view class="abilityct1_inner">
+					<echarts :id="'echartsr1'" :options="radar" />
+				</view>
+			</view>
+			<view class="buttons">
 				<view :class="['btn',btnAct == 0 ? 'btn_act' : '']" @click="tabBtn(0)">表格</view>
 				<view :class="['btn',btnAct == 1 ? 'btn_act' : '']" @click="tabBtn(1)">立体</view>
 				<view :class="['btn',btnAct == 2 ? 'btn_act' : '']" @click="tabBtn(2)">图表</view>
@@ -83,7 +88,9 @@
 		
 		<!-- 核心素养 -->
 		<view class="accomplishment">
-			核心素养
+			<view class="accomplishmenttit">
+				<image src="../../static/images/icon/medal.png" /> 核心素养
+			</view>
 		</view>
 		
 		
@@ -199,6 +206,8 @@
 				tapY:0,
 				timer1:null,//定时器
 				curridx:0,
+				columnar:{},//柱状图参数
+				randerCol:0,//柱状图渲染
 			}
 		},
 		onLoad(){
@@ -209,6 +218,8 @@
 			this.skills.forEach((v,i)=>{
 				v.annular = app.globalData.options.annular(v.score,60,100)
 			})
+			this.columnar =  app.globalData.options.columnar();
+			
 			this.timer1 = setInterval(function(){
 				that.transY ++;
 			},30)
@@ -216,6 +227,7 @@
 		onPageScroll(e){
 			if(e.scrollTop > 180){
 				this.transFlag = 1;
+				this.randerCol = 1;
 			}else{
 				this.transFlag = 0;
 			}
@@ -224,7 +236,7 @@
 		computed:{
 			abltystyle(){
 				if(this.btnAct == 1){
-					return {'transform':`rotateY(${this.transY}deg) rotateX(45deg) rotateZ(45deg)`,'transform-origin':'100rpx 100rpx 200rpx'};
+					return {width:`75px`,height:'75px','transform':`rotateY(${this.transY}deg) rotateX(45deg) rotateZ(45deg)`,'transform-origin':'100rpx 100rpx 200rpx'};
 				}else{
 					return {};
 				}
@@ -263,6 +275,7 @@
 			},
 			moveBoxEnd(){
 				let that = this;
+				clearInterval(this.timer1);
 				this.timer1 = setInterval(function(){
 					that.transY ++;
 				},30)
