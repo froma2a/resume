@@ -77,14 +77,6 @@
     },
     "h5" : {
         "title" : "fun",
-        "domain" : "111.230.192.119:12",
-        "router" : {
-			"base": "/pages/",
-            "mode" : "hash"
-        },
-        "devServer" : {
-            "https" : false,
-            "port" : 12
-        }
+        "domain" : "111.230.192.119:12"
     }
 }

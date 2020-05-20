@@ -79,7 +79,7 @@
 					<echarts :id="'echartsr1'" :options="radar" />
 				</view>
 			</view>
-			<view class="buttons">
+			<view class="buttons" :style="{'margin':btnAct == 1 ? ' 100px auto 0 auto' : ''}">
 				<view :class="['btn',btnAct == 0 ? 'btn_act' : '']" @click="tabBtn(0)">表格</view>
 				<view :class="['btn',btnAct == 1 ? 'btn_act' : '']" @click="tabBtn(1)">立体</view>
 				<view :class="['btn',btnAct == 2 ? 'btn_act' : '']" @click="tabBtn(2)">图表</view>
@@ -89,7 +89,10 @@
 		<!-- 核心素养 -->
 		<view class="accomplishment">
 			<view class="accomplishmenttit">
-				<image src="../../static/images/icon/medal.png" /> 核心素养
+				<image src="../../static/images/icon/accomplishment.png" /> 核心素养
+			</view>
+			<view class="accomplishmentct">
+				<view class="acc-item" :style="sph1"></view>
 			</view>
 		</view>
 		
@@ -208,6 +211,12 @@
 				curridx:0,
 				columnar:{},//柱状图参数
 				randerCol:0,//柱状图渲染
+				movetimer:null,	//小球活动定时器
+				pos:{
+					x:0,
+					y:0
+				},
+				sph1:null,//小球
 			}
 		},
 		onLoad(){
@@ -223,13 +232,43 @@
 			this.timer1 = setInterval(function(){
 				that.transY ++;
 			},30)
+			
+			// 小圆球初始定位
+			// this.createdPos();
+			let osph1 = new Sphere().create();
+			Object.defineProperty(Sphere,'sty',{
+			get:function() {
+				console.log(sty);
+				return sty;
+			},
+			set: function(value) {
+				console.log(value); //value是 data改变后的值
+			}
+			})
+			this.sph1 = osph1.sty;
+			console.log(osph1,this.sph1);
+			
+			
+			// 订阅者模式
+			let smallob = new Observer();
+			let gos = ()=>{
+				console.log('君乎？');
+			};
+			let bes = (a,b)=>{
+				console.log(a,b);
+			};
+			smallob.subscribe('a',bes).subscribe('a',gos);
+			smallob.release('a','傻','逼');
+			smallob.delete('a',gos);
+			smallob.release('a','草','你妈');
 		},
 		onPageScroll(e){
-			if(e.scrollTop > 180){
+			if(e.scrollTop > 200 && e.scrollTop < 1100){
 				this.transFlag = 1;
 				this.randerCol = 1;
 			}else{
 				this.transFlag = 0;
+				this.randerCol = 0;
 			}
 			
 		},
@@ -282,9 +321,149 @@
 			},
 			changecurr(e) {
 				this.curridx = e.detail.current;
+			},
+			createdPos(){
+				this.pos.x = Math.random()*370;
+				this.pos.y = Math.random()*240;
+				this.movely();
+			},
+			movely(){
+				let that = this;
+				let speed = Math.random()*10 > 5 ? 1 : -1;
+				let speed2 =  Math.random()*10 > 5 ? 1 : -1;
+				console.log('这个小球的速度',speed);
+				this.movetimer = setInterval(function(){
+					
+					if(that.pos.x<0){
+						that.pos.x = 0;
+						speed = -speed;
+					}
+					else if(that.pos.x > 370){
+						that.pos.x = 370;
+						speed = -speed;
+					}
+					else{
+						that.pos.x += speed;
+					}
+					
+					if(that.pos.y<0){
+						that.pos.y = 0;
+						speed2 = -speed2;
+					}
+					else if(that.pos.y > 240){
+						that.pos.y = 240;
+						speed2 = -speed2;
+					}
+					else{
+						that.pos.y += speed2;
+					}
+				},30);
+			},
+			sphere(){
+				
 			}
 		}
 	}
+	
+	
+// 面向对象写球体移动
+class Sphere{
+	
+	constructor() {
+		this.x = 0;
+		this.y = 0;
+		this.speed1 = 0;
+		this.speed2 = 0;
+		this.sty = { left :'0px', top : '0px'};
+	}
+	create(){
+		this.x = parseInt(Math.random()*370);
+		this.y = parseInt(Math.random()*240);
+		this.speed1 = Math.random()*10 > 5 ? 1 : -1;
+		this.speed2 = Math.random()*10 > 5 ? 1 : -1;
+		return this.move();
+	}
+	move(){
+		let that = this;
+		this.movetimer = setInterval(function(){
+			if(that.x<0){
+				that.x = 0;
+				that.speed1 = -that.speed1;
+			}
+			else if(that.x > 370){
+				that.x = 370;
+				that.speed1 = -that.speed1;
+			}
+			else{
+				that.x += that.speed1;
+			}
+			
+			if(that.y<0){
+				that.y = 0;
+				that.speed2 = -that.speed2;
+			}
+			else if(that.y > 240){
+				that.y = 240;
+				that.speed2 = -that.speed2;
+			}
+			else{
+				that.y += that.speed2;
+			}
+			that.sty = { left : that.x + 'px', top : that.y + 'px'};
+		},30);
+		return this;
+	}
+}
+
+
+
+// 面向对象的观察者模式
+
+class Observer{
+	constructor(){
+		this.eventList = {};
+	}
+	subscribe(type,event){
+		if(!this.eventList.hasOwnProperty(type)){
+			this.eventList[type] = [];
+		}
+		if(typeof event == 'function'){
+			this.eventList[type].push(event);
+		}else{
+			console.log("缺少回调函数");
+		}
+		return this;
+	}
+	release(type,...args){
+		if(this.eventList.hasOwnProperty(type)){
+			this.eventList[type].forEach((item,index,arr)=>{
+				item.apply(null,args);
+			})
+		}else{
+			console.log("请先注册监听");
+		}
+		return this;
+	}
+	delete(type,event){
+		if(this.eventList.hasOwnProperty(type)){
+			if(typeof event== 'function'){
+				this.eventList[type].forEach((item,index,arr)=>{
+					if(item == event){
+						arr.splice(index,1);
+					}
+				})
+			}else{
+				console.log('缺少回调函数');
+			}
+		}else{
+			console.log("事件未注册");
+		}
+		return this;
+	}
+}
+
+
+
 </script>
 
 <style>
