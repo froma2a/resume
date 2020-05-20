@@ -79,6 +79,7 @@
         "title" : "fun",
         "domain" : "111.230.192.119:12",
         "router" : {
+			"base": "/pages/",
             "mode" : "hash"
         },
         "devServer" : {
