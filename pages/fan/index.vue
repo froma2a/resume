@@ -92,7 +92,18 @@
 				<image src="../../static/images/icon/accomplishment.png" /> 核心素养
 			</view>
 			<view class="accomplishmentct">
-				<view class="acc-item" :style="sph1"></view>
+				<!-- <view class="acc-item" v-for="(v,i) in sphs" :style="v.sty" :key="i">
+					<view class="acc-item-inner"></view>
+				</view> -->
+				<view class="acc-item" v-for="(v,i) in points" :style="{left: v.l +'px',top: v.t +'px'}" :key="i">
+					<view class="acc-item-inner"></view>
+				</view>
+				<!-- <view class="plate">
+					<view class="plate-inner">
+						<view class="acc-item" v-for="(v,i) in points" :style="{left: v.l +'px',top: v.t +'px'}" :key="i"></view>
+						<!-- <view class="plate-ball" :style="{left:50*Math.cos(120*Math.PI/180)+'px',top:- 50*Math.sin(120*Math.PI/180)+'px'}"></view> -->
+					<!-- </view> -->
+				<!-- </view> --> -->
 			</view>
 		</view>
 		
@@ -216,11 +227,13 @@
 					x:0,
 					y:0
 				},
-				sph1:null,//小球
+				sphs:[],//素养闪光点
+				points:[]
 			}
 		},
 		onLoad(){
 			let that = this;
+			// 开屏动画
 			// setTimeout(function(){
 			// 	that.loading = 0;
 			// },2000)
@@ -235,32 +248,26 @@
 			
 			// 小圆球初始定位
 			// this.createdPos();
-			let osph1 = new Sphere().create();
-			Object.defineProperty(Sphere,'sty',{
-			get:function() {
-				console.log(sty);
-				return sty;
-			},
-			set: function(value) {
-				console.log(value); //value是 data改变后的值
+			// for(let i = 0 ;i < 10; i ++){
+			// 	this.sphs.push(new Sphere().create());
+			// }
+			// setInterval(function(){
+			// 	that.sphs.forEach(v=>{
+			// 		v.move();
+			// 	});
+			// },30);
+			
+			for(let i = 0;i < 10;i++){
+				if(36 * i <= 90){
+					this.points.push({ l: 175 + 50 * Math.cos(36*i*Math.PI/180), t: 125 - 50*Math.sin(36 * i * Math.PI/180)});
+				}else if(36 * i > 90 && 36 * i <= 180){
+					this.points.push({ l: 175 + 50 * Math.cos(36*i*Math.PI/180), t: 125 - 50*Math.sin(36 * i * Math.PI/180)});
+				}else if(36 * i > 180 && 36 * i <= 270){
+					this.points.push({ l: 175 + 50 * Math.cos(36*i*Math.PI/180), t: 125 - 50*Math.sin(36 * i * Math.PI/180)});
+				}else if(36 * i > 270 && 36 * i <= 360){
+					this.points.push({ l: 175 + 50 * Math.cos(36*i*Math.PI/180), t: 125 - 50*Math.sin(36 * i * Math.PI/180)});
+				}
 			}
-			})
-			this.sph1 = osph1.sty;
-			console.log(osph1,this.sph1);
-			
-			
-			// 订阅者模式
-			let smallob = new Observer();
-			let gos = ()=>{
-				console.log('君乎？');
-			};
-			let bes = (a,b)=>{
-				console.log(a,b);
-			};
-			smallob.subscribe('a',bes).subscribe('a',gos);
-			smallob.release('a','傻','逼');
-			smallob.delete('a',gos);
-			smallob.release('a','草','你妈');
 		},
 		onPageScroll(e){
 			if(e.scrollTop > 200 && e.scrollTop < 1100){
@@ -322,51 +329,10 @@
 			changecurr(e) {
 				this.curridx = e.detail.current;
 			},
-			createdPos(){
-				this.pos.x = Math.random()*370;
-				this.pos.y = Math.random()*240;
-				this.movely();
-			},
-			movely(){
-				let that = this;
-				let speed = Math.random()*10 > 5 ? 1 : -1;
-				let speed2 =  Math.random()*10 > 5 ? 1 : -1;
-				console.log('这个小球的速度',speed);
-				this.movetimer = setInterval(function(){
-					
-					if(that.pos.x<0){
-						that.pos.x = 0;
-						speed = -speed;
-					}
-					else if(that.pos.x > 370){
-						that.pos.x = 370;
-						speed = -speed;
-					}
-					else{
-						that.pos.x += speed;
-					}
-					
-					if(that.pos.y<0){
-						that.pos.y = 0;
-						speed2 = -speed2;
-					}
-					else if(that.pos.y > 240){
-						that.pos.y = 240;
-						speed2 = -speed2;
-					}
-					else{
-						that.pos.y += speed2;
-					}
-				},30);
-			},
-			sphere(){
-				
-			}
 		}
 	}
 	
-	
-// 面向对象写球体移动
+// 小球
 class Sphere{
 	
 	constructor() {
@@ -381,86 +347,37 @@ class Sphere{
 		this.y = parseInt(Math.random()*240);
 		this.speed1 = Math.random()*10 > 5 ? 1 : -1;
 		this.speed2 = Math.random()*10 > 5 ? 1 : -1;
-		return this.move();
+		return this;
 	}
 	move(){
-		let that = this;
-		this.movetimer = setInterval(function(){
-			if(that.x<0){
-				that.x = 0;
-				that.speed1 = -that.speed1;
-			}
-			else if(that.x > 370){
-				that.x = 370;
-				that.speed1 = -that.speed1;
-			}
-			else{
-				that.x += that.speed1;
-			}
-			
-			if(that.y<0){
-				that.y = 0;
-				that.speed2 = -that.speed2;
-			}
-			else if(that.y > 240){
-				that.y = 240;
-				that.speed2 = -that.speed2;
-			}
-			else{
-				that.y += that.speed2;
-			}
-			that.sty = { left : that.x + 'px', top : that.y + 'px'};
-		},30);
-		return this;
+		if(this.x<0){
+			this.x = 0;
+			this.speed1 = -this.speed1;
+		}
+		else if(this.x > 365){
+			this.x = 365;
+			this.speed1 = -this.speed1;
+		}
+		else{
+			this.x += this.speed1;
+		}
+		
+		if(this.y<0){
+			this.y = 0;
+			this.speed2 = -this.speed2;
+		}
+		else if(this.y > 240){
+			this.y = 240;
+			this.speed2 = -this.speed2;
+		}
+		else{
+			this.y += this.speed2;
+		}
+		this.sty = { left : this.x + 'px', top : this.y + 'px'};
 	}
 }
 
 
-
-// 面向对象的观察者模式
-
-class Observer{
-	constructor(){
-		this.eventList = {};
-	}
-	subscribe(type,event){
-		if(!this.eventList.hasOwnProperty(type)){
-			this.eventList[type] = [];
-		}
-		if(typeof event == 'function'){
-			this.eventList[type].push(event);
-		}else{
-			console.log("缺少回调函数");
-		}
-		return this;
-	}
-	release(type,...args){
-		if(this.eventList.hasOwnProperty(type)){
-			this.eventList[type].forEach((item,index,arr)=>{
-				item.apply(null,args);
-			})
-		}else{
-			console.log("请先注册监听");
-		}
-		return this;
-	}
-	delete(type,event){
-		if(this.eventList.hasOwnProperty(type)){
-			if(typeof event== 'function'){
-				this.eventList[type].forEach((item,index,arr)=>{
-					if(item == event){
-						arr.splice(index,1);
-					}
-				})
-			}else{
-				console.log('缺少回调函数');
-			}
-		}else{
-			console.log("事件未注册");
-		}
-		return this;
-	}
-}
 
 
 
@@ -470,3 +387,4 @@ class Observer{
 @import url("./index.css");
 
 </style>
+

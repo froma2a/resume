@@ -439,20 +439,57 @@
 	position: relative;
 }
 .acc-item{
-	width: 20rpx;
-	height: 20rpx;
+	width: 15rpx;
+	height: 15rpx;
 	border-radius: 50%;
-	background-color: #00AE9D;
+	background-color: #00AE9D /* #00AE9D*/;
 	position: absolute;
+	animation: star-move infinite 3s;
+}
+@keyframes star-move {
+	0%{
+		box-shadow: 0 0 1px 0px #00AE9D;
+	}
+	30%{
+		box-shadow: 0 0 10px 2px #00AE9D;
+	}
+	100%{
+		box-shadow:0 0 1px 0px #00AE9D;
+	}
 }
 
-
-
-
-.star {
-	display: block;
-	width: 5px;
-	height: 5px;
+.plate{
+	width: 200rpx;
+	height: 200rpx;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	border-radius: 50%;
+	border: 1px solid #00A6AC;
+}
+.plate-inner{
+	width:2rpx;
+	height: 2rpx;
+	position: relative;
+	margin: 99rpx;
+	background-color: #4CD964;
+}
+.plate-ball{
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+	background-color: #00FFFF;
+	position: absolute;
+	margin-left: -50%;
+	margin-top: -50%;
+}
+/* 
+.acc-item-inner {
+	height: 100%;
+	width: 100%;
 	border-radius: 50%;
 	background: #fff;
 	top: 100px;
@@ -460,47 +497,33 @@
 	position: relative;
 	transform-origin: 100% 0;
 	animation: star-ani 6s infinite linear;
-	box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.3);
 	opacity: 0;
 	z-index: 2;
 }
 
-.star:after {
-	content: '';
-	display: block;
-	top: 0px;
-	left: 4px;
-	border: 0px solid #fff;
-	border-width: 0px 90px 2px 90px;
-	border-color: transparent transparent transparent rgba(255, 255, 255, 0.3);
-	transform: rotate(-45deg) translate3d(1px, 3px, 0);
-	box-shadow: 0 0 1px 0 rgba(255, 255, 255, 0.1);
-	transform-origin: 0% 100%;
-	animation: shooting-ani 3s infinite linear;
-}
 
 @keyframes star-ani {
 	0% {
 		opacity: 0;
-		transform: scale(0) rotate(0) translate3d(0, 0, 0);
-		-webkit-transform: scale(0) rotate(0) translate3d(0, 0, 0);
-		-moz-transform: scale(0) rotate(0) translate3d(0, 0, 0);
+		transform: scale(0) rotate(0);
+		-webkit-transform: scale(0) rotate(0);
+		-moz-transform: scale(0) rotate(0);
 	}
 
 	50% {
 		opacity: 1;
-		transform: scale(1) rotate(0) translate3d(-200px, 200px, 0);
-		-webkit-transform: scale(1) rotate(0) translate3d(-200px, 200px, 0);
-		-moz-transform: scale(1) rotate(0) translate3d(-200px, 200px, 0);
+		transform: scale(1) rotate(0);
+		-webkit-transform: scale(1) rotate(0);
+		-moz-transform: scale(1) rotate(0);
 	}
 
 	100% {
 		opacity: 0;
-		transform: scale(1) rotate(0) translate3d(-400px, 400px, 0);
-		-webkit-transform: scale(1) rotate(0) translate3d(-400px, 400px, 0);
-		-moz-transform: scale(1) rotate(0) translate3d(-400px, 400px, 0);
+		transform: scale(1) rotate(0);
+		-webkit-transform: scale(1) rotate(0);
+		-moz-transform: scale(1) rotate(0);
 	}
-}
+} */
 
 
 
